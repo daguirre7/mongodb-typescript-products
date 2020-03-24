@@ -7,10 +7,6 @@
     "tsc": "tsc",
     "dev": "ts-node-dev --respawn --transpileOnly ./app/app.ts"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/uayeb25/mongodb-typescript-products.git"
-  },
   "author": "",
   "license": "ISC",
   "bugs": {
