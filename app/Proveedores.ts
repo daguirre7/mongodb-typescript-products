@@ -8,6 +8,7 @@ export interface IProveedor extends mongoose.Document {
 }
 
 const ProveedorSchema = new mongoose.Schema({
+    _id: {type:String, required: true},
     name: { type: String, required: true },
     tipo: {type: String, required: true},
     direccion: { type: String, required: false }
@@ -15,10 +16,11 @@ const ProveedorSchema = new mongoose.Schema({
 
 export const Proveedor = mongoose.model<IProveedor>("Proveedor", ProveedorSchema);
 
-export const CreateProveedor = async function(name: string, direccion: string, tipo: string){
+export const CreateProveedor = async function(id:string,name: string, direccion: string, tipo: string){
     await connectMongoDB;
 
     const newOne = new Proveedor();
+    newOne._id = id;
     newOne.name = name;
     newOne.direccion = direccion;
     newOne.tipo = tipo;
@@ -44,4 +46,24 @@ export function getProveedor(_name: string):Promise<any>{
     });
 }
 
+export const DeleteProveedor = async function(_name:string){
+    await connectMongoDB;
+    Proveedor.deleteOne({name:_name}, (err:any,result:any) => {
+        if(err){
+            console.log(err.message);
+        }else{
+            console.log(result);
+        }
+    });
+} 
 
+export const DeleteProveedorByType = async function(filter:any){
+    await connectMongoDB;
+    Proveedor.deleteMany(filter, (err:any,result:any) => {
+        if(err){
+            console.log(err.message);
+        }else{
+            console.log(result);
+        }
+    });
+} 
