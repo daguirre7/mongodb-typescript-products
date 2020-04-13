@@ -33,7 +33,7 @@ export const CreateProveedor = async function(id:string,name: string, direccion:
         }
     } );
 }
-
+/*
 export function getProveedor(_name: string):Promise<any>{
     return new Promise<any>( resolve => {
         Proveedor.findOne({ name: _name}, (err:any,data:any) => {
@@ -45,7 +45,19 @@ export function getProveedor(_name: string):Promise<any>{
         } );
     });
 }
+*/
 
+export function getProveedor(filtro: any):Promise<any>{
+    return new Promise<any>( resolve => {
+        Proveedor.findOne(filtro, (err:any,data:any) => {
+            if(err){
+                resolve({});
+            }else{
+                resolve(data);
+            }
+        } );
+    });
+}
 export const DeleteProveedor = async function(_name:string){
     await connectMongoDB;
     Proveedor.deleteOne({name:_name}, (err:any,result:any) => {

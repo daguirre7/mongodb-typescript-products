@@ -20,7 +20,7 @@ const ProductoSchema = new mongoose.Schema({
 
 
 export const Producto = mongoose.model<IProducts>("Producto", ProductoSchema);
-
+/*
 export const CreateProduct = async function(nameProveedor:string,name:string, precio_compra:number,precio_venta:number,cantidad:number){
     //Conectar con la base de datos
     await connectMongoDB;
@@ -44,3 +44,49 @@ export const CreateProduct = async function(nameProveedor:string,name:string, pr
     });
 }
 
+*/
+
+export const CreateProduct = async function(proveedorf:any,name:string, precio_compra:number,precio_venta:number,cantidad:number){
+    //Conectar con la base de datos
+    await connectMongoDB;
+    //Obtener el proveedor en funcion del nombre
+    const prov:any = await getProveedor(proveedorf);
+
+    //persistencia de nuestro producto
+    const p = new Producto();
+    p.name = name;
+    p.precio_compra = precio_compra;
+    p.precio_venta = precio_venta;
+    p.cantidad =  cantidad;
+    p.proveedor = prov;
+
+    p.save((err:any)=>{
+        if(err){
+            console.log(err.message);
+        }else{
+            console.log(p);
+        }
+    });
+}
+
+export const deleteProduct= async function(filtro:any){
+    await connectMongoDB;
+    Producto.deleteMany(filtro,(err:any, result:any)=>{
+        if(err){
+            console.log(err);   
+        }else{
+            console.log(result.n);
+        }
+    });
+}
+
+export const updateProduct = async function(filtro:any,actualizar:any){
+    await connectMongoDB;
+    Producto.updateMany(filtro,actualizar,(err:any,result:any)=>{   
+        if(err){
+            console.log(err.message);
+        }else{
+            console.log(result);
+        }
+    });
+}
